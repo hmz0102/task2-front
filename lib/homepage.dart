@@ -15,17 +15,18 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage> {
   int _currentIndex = 0;
-  final List<Widget> _pages = [
-    builthome(),
-    const Serach(),
-    const Addpage(),
-    const Activepage(),
-    const Profile(),
-  ];
+
   @override
   Widget build(BuildContext context) {
+    final List<Widget> pages = [
+      builthome(),
+      const Serach(),
+      const Addpage(),
+      const Activepage(),
+      const Profile(),
+    ];
     return Scaffold(
-      body: _pages[_currentIndex],
+      body: pages[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (index) {
@@ -343,7 +344,7 @@ Widget post({
                       shape: BoxShape.circle,
                     ),
                   ),
-                  SizedBox(width: 130),
+                  Spacer(),
                   IconButton(
                     onPressed: () {},
                     icon: Icon(Icons.bookmark_border, size: 27),
