@@ -60,13 +60,25 @@ class _HomepageState extends State<Homepage> {
           ),
           // أيقونة البروفايل (صورة مخصصة)
           BottomNavigationBarItem(
-            icon: ClipRRect(
-              borderRadius: BorderRadius.circular(50),
-              child: Image.asset(
-                "assets/Your Story.png", // صورة المستخدم من ملفاتك
-                width: 30,
-                height: 30,
-                fit: BoxFit.cover,
+            icon: Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: Color(0xffC7C7CC), width: 2),
+              ),
+              child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.white, width: 2),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(80),
+                  child: Image.asset(
+                    "assets/Your Story.png",
+                    width: 30,
+                    height: 30,
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
             ),
             label: 'Profile',
@@ -400,7 +412,7 @@ Widget post({
               ClipRRect(
                 borderRadius: BorderRadius.circular(50),
                 child: Image.asset(
-                  "assets/joshua_l.png",
+                  "assets/craig_love.png",
                   width: 25,
                   height: 25,
                 ),
