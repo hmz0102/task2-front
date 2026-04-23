@@ -34,9 +34,8 @@ class _HomepageState extends State<Homepage> {
             _currentIndex = index;
           });
         },
-        type: BottomNavigationBarType
-            .fixed, // لضمان بقاء الأيقونات في مكانها وتوزيعها بالتساوي
-        showSelectedLabels: false, // إخفاء النصوص تحت الأيقونات (مثل إنستجرام)
+        type: BottomNavigationBarType.fixed,
+        showSelectedLabels: false,
         showUnselectedLabels: false,
         selectedItemColor: Colors.black,
         unselectedItemColor: Colors.black,
@@ -58,7 +57,6 @@ class _HomepageState extends State<Homepage> {
             icon: Icon(Icons.favorite_border, size: 30),
             label: 'Activity',
           ),
-          // أيقونة البروفايل (صورة مخصصة)
           BottomNavigationBarItem(
             icon: Container(
               decoration: BoxDecoration(
@@ -404,7 +402,6 @@ Widget post({
             ),
           ],
         ),
-        // 4. وصف المنشور
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12),
           child: Row(
