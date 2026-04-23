@@ -43,7 +43,7 @@ class _HomepageState extends State<Homepage> {
 
         items: [
           const BottomNavigationBarItem(
-            icon: Icon(Icons.home_filled, size: 30),
+            icon: Icon(Icons.home_outlined, size: 30),
             label: 'Home',
           ),
           const BottomNavigationBarItem(
@@ -63,7 +63,7 @@ class _HomepageState extends State<Homepage> {
             icon: ClipRRect(
               borderRadius: BorderRadius.circular(50),
               child: Image.asset(
-                "assets/5.png", // صورة المستخدم من ملفاتك
+                "assets/Your Story.png", // صورة المستخدم من ملفاتك
                 width: 30,
                 height: 30,
                 fit: BoxFit.cover,
@@ -79,7 +79,13 @@ class _HomepageState extends State<Homepage> {
 
 Widget builthome() {
   List name = ["Your Story", "karennne", "zackjohn", "kieron_d", "craig_love"];
-
+  List<Map<String, dynamic>> images = [
+    {"img": "assets/Your Story.png", "isLive": false},
+    {"img": "assets/karennne.png", "isLive": true},
+    {"img": "assets/zackjohn.png", "isLive": false},
+    {"img": "assets/kieron_d.png", "isLive": false},
+    {"img": "assets/craig_love.png", "isLive": false},
+  ];
   return SafeArea(
     child: SingleChildScrollView(
       child: Column(
@@ -121,64 +127,97 @@ Widget builthome() {
               ],
             ),
           ),
-          SizedBox(height: 40),
+          const SizedBox(height: 10),
+
           SizedBox(
-            height: 150,
+            height: 130,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: 5,
+              itemCount: images.length,
               itemBuilder: (context, index) {
-                return Row(
-                  children: [
-                    SizedBox(width: 20),
-                    Column(
-                      children: [
-                        const SizedBox(width: 20),
-                        Container(
-                          width: 86,
-                          height: 86,
-                          padding: const EdgeInsets.all(3),
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            gradient: LinearGradient(
-                              colors: [
-                                Color(0xffA60F93),
-                                Color(0xffD91A46),
-                                Color(0xffFBAA47),
-                              ],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ),
-                          ),
-                          child: Container(
-                            padding: const EdgeInsets.all(2),
+                return Padding(
+                  padding: EdgeInsets.only(
+                    left: index == 0 ? 15 : 10,
+                    right: 5,
+                  ),
+                  child: Column(
+                    children: [
+                      Stack(
+                        children: [
+                          Container(
+                            width: 86,
+                            height: 86,
+                            padding: const EdgeInsets.all(3),
                             decoration: const BoxDecoration(
-                              color: Colors.white,
                               shape: BoxShape.circle,
+                              gradient: LinearGradient(
+                                colors: [
+                                  Color(0xffA60F93),
+                                  Color(0xffD91A46),
+                                  Color(0xffFBAA47),
+                                ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
                             ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(50),
-                              child: Image.asset(
-                                "assets/${index + 1}.png",
-                                width: 80,
-                                height: 80,
-                                fit: BoxFit.cover,
+                            child: Container(
+                              padding: const EdgeInsets.all(2),
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Stack(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(50),
+                                    child: Image.asset(
+                                      images[index]["img"],
+                                      width: 76,
+                                      height: 76,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
-                        ),
-                        const SizedBox(width: 20),
-                        Text(name[index]),
-                      ],
-                    ),
-                    SizedBox(width: 10),
-                  ],
+
+                          if (images[index]["isLive"])
+                            Positioned(
+                              bottom: 0,
+                              left: 0,
+                              right: 0,
+                              child: Center(
+                                child: Image.asset(
+                                  "images/Live.png",
+                                  width: 35,
+                                  height: 20,
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        name[index],
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(fontSize: 12),
+                      ),
+                    ],
+                  ),
                 );
               },
             ),
           ),
+          Divider(
+            color: Colors.grey.withOpacity(0.3),
+            thickness: 0.5,
+            height: 0,
+          ),
+          const SizedBox(height: 10),
           post(
-            picName: "assets/6.png",
+            picName: "assets/joshua_l.png",
             name: "joshua_l",
             address: "Tokyo, Japan",
             postPic: "assets/post.png",
@@ -188,16 +227,16 @@ Widget builthome() {
           ),
           SizedBox(height: 20),
           post(
-            picName: "images/7.png",
-            name: "karennne",
-            address: "zackjohn",
+            picName: "assets/joshua_l.png",
+            name: "joshua_l",
+            address: "Tokyo, Japan",
             postPic: "images/7.png",
             postDes: " I'm so excited to share my new photos with you all",
             liked: true,
           ),
           SizedBox(height: 20),
           post(
-            picName: "assets/6.png",
+            picName: "assets/karennne.png",
             name: "karennne",
             address: "zackjohn",
             postPic: "assets/post.png",
@@ -273,7 +312,6 @@ Widget post({
           ],
         ),
         SizedBox(height: 20),
-        // شلنا الـ Expanded واستخدمنا Padding لترتيب الأيقونات
         Stack(
           children: [
             Padding(
@@ -361,7 +399,11 @@ Widget post({
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(50),
-                child: Image.asset("assets/5.png", width: 25, height: 25),
+                child: Image.asset(
+                  "assets/joshua_l.png",
+                  width: 25,
+                  height: 25,
+                ),
               ),
               const Text("  Liked by "),
               Text(

@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:flutter/material.dart';
 
 class Profile extends StatefulWidget {
@@ -24,8 +26,45 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    List<Map<String, dynamic>> images = [
+      {"img": "images/11.png", "isvideo": false},
+      {"img": "images/12.png", "isvideo": true},
+      {"img": "images/13.png", "isvideo": false},
+      {"img": "images/14.png", "isvideo": true},
+      {"img": "images/15.png", "isvideo": false},
+      {"img": "images/16.png", "isvideo": true},
+      {"img": "images/17.png", "isvideo": false},
+      {"img": "images/18.png", "isvideo": true},
+      {"img": "images/19.png", "isvideo": false},
+    ];
+    List<Map<String, dynamic>> rev_images = images.reversed.toList();
     return Scaffold(
-      endDrawer: Drawer(),
+      endDrawer: Drawer(
+        child: Padding(
+          padding: EdgeInsets.only(top: 80, left: 15, right: 20, bottom: 20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("s.khasanov_", style: TextStyle(fontSize: 20)),
+              SizedBox(height: 10),
+              drawerIcon("images/Icon1.png", "Archive"),
+              SizedBox(height: 10),
+              drawerIcon("images/Icon2.png", "Your Activity"),
+              SizedBox(height: 10),
+              drawerIcon("images/Icon3.png", "Nametag"),
+              SizedBox(height: 10),
+              drawerIcon("images/Icon4.png", "Saved"),
+              SizedBox(height: 10),
+              drawerIcon("images/Icon5.png", "Close Friends"),
+              SizedBox(height: 10),
+              drawerIcon("images/Icon6.png", "Discover People"),
+              Spacer(),
+              drawerIcon("images/Vector.png", "Log out"),
+            ],
+          ),
+        ),
+      ),
       appBar: AppBar(
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -64,7 +103,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(80),
                               child: Image.asset(
-                                "assets/1.png",
+                                "assets/Your Story.png",
                                 width: 80,
                                 height: 80,
                                 fit: BoxFit.cover,
@@ -78,7 +117,10 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                           children: [
                             Text(
                               "54",
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                              ),
                             ),
                             Text("Posts"),
                           ],
@@ -88,7 +130,10 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                           children: [
                             Text(
                               "834",
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                              ),
                             ),
                             Text("Followers"),
                           ],
@@ -98,7 +143,10 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                           children: [
                             Text(
                               "162",
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                              ),
                             ),
                             Text("Following"),
                           ],
@@ -198,6 +246,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
             ),
           ];
         },
+
         body: TabBarView(
           controller: _tabController,
           children: [
@@ -208,11 +257,11 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                 crossAxisSpacing: 1,
                 mainAxisSpacing: 1,
               ),
-              itemCount: 30, // Add item count
+              itemCount: images.length, // Add item count
               itemBuilder: (context, index) {
                 return Container(
                   color: Colors.grey[300],
-                  child: Center(child: Text('${index + 1}')),
+                  child: videoIconOrPic(images[index]),
                 );
               },
             ),
@@ -223,11 +272,11 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                 crossAxisSpacing: 1,
                 mainAxisSpacing: 1,
               ),
-              itemCount: 30, // Add item count
+              itemCount: images.length, // Add item count
               itemBuilder: (context, index) {
                 return Container(
                   color: Colors.grey[400],
-                  child: Center(child: Text('${index + 1}')),
+                  child: videoIconOrPic(rev_images[index]),
                 );
               },
             ),
@@ -293,4 +342,31 @@ Widget stroy(String picName, String des) {
       Text(des, style: TextStyle(fontSize: 15)),
     ],
   );
+}
+
+Widget drawerIcon(String img, String name) {
+  return InkWell(
+    onTap: () {},
+    child: ListTile(
+      leading: Image.asset(img, width: 25, height: 25),
+      title: Text(name, style: TextStyle(fontSize: 20)),
+    ),
+  );
+}
+
+Widget videoIconOrPic(Map<String, dynamic> item) {
+  if (item["isvideo"]) {
+    return Stack(
+      children: [
+        Image.asset(item["img"], fit: BoxFit.cover),
+        Positioned(
+          right: 8,
+          top: 8,
+          child: Image.asset("images/video.png", width: 20, height: 20),
+        ),
+      ],
+    );
+  } else {
+    return Image.asset(item["img"], fit: BoxFit.cover);
+  }
 }

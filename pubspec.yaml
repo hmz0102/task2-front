@@ -63,17 +63,17 @@ flutter:
     - assets/Icon.png
     - assets/Shape.png
     - assets/IGTV.png
+    - assets/IGTV copy.png
     - assets/Camera Icon.png
-    - assets/1.png
-    - assets/2.png
-    - assets/3.png
-    - assets/4.png
-    - assets/5.png
-    - assets/6.png
+    - assets/Your Story.png
+    - assets/joshua_l.png
+    - assets/craig_love.png
+    - assets/kieron_d.png
+    - assets/zackjohn.png
+    - assets/karennne.png
     - assets/post.png
     - assets/Path.png
     - assets/Comment.png
-    - assets/Camera Icon.png
     - assets/Camera Icon copy.png
     - assets/Like.png
     - images/Shape.png
@@ -83,7 +83,25 @@ flutter:
     - images/8.png
     - images/9.png
     - images/10.png
+    - images/11.png
+    - images/12.png
+    - images/13.png
+    - images/14.png
+    - images/15.png
+    - images/16.png
+    - images/17.png
+    - images/18.png
+    - images/19.png
+    - images/Icon1.png
+    - images/Icon2.png
+    - images/Icon3.png
+    - images/Icon4.png
+    - images/Icon5.png
+    - images/Icon6.png
     - images/fullLike.png
+    - images/Vector.png
+    - images/video.png
+    - images/Live.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
