@@ -1,5 +1,6 @@
 // ignore_for_file: non_constant_identifier_names
 
+import 'package:etrain/classes/stories.dart';
 import 'package:flutter/material.dart';
 
 class Profile extends StatefulWidget {
@@ -271,36 +272,6 @@ class _ProfileState extends State<Profile> {
       ),
     );
   }
-}
-
-// Story Widget
-Widget stroy(String picName, String des) {
-  return Column(
-    children: [
-      Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey, width: 2),
-          borderRadius: BorderRadius.circular(50),
-        ),
-        child: Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.white, width: 2),
-            borderRadius: BorderRadius.circular(50),
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(50),
-            child: Image.asset(
-              picName,
-              width: 70,
-              height: 70,
-              fit: BoxFit.cover,
-            ),
-          ),
-        ),
-      ),
-      Text(des, style: TextStyle(fontSize: 15)),
-    ],
-  );
 }
 
 Widget drawerIcon(String img, String name) {
