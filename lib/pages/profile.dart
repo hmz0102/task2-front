@@ -9,21 +9,7 @@ class Profile extends StatefulWidget {
   State<Profile> createState() => _ProfileState();
 }
 
-class _ProfileState extends State<Profile> with TickerProviderStateMixin {
-  late TabController _tabController;
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: 2, vsync: this);
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
-
+class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     List<Map<String, dynamic>> images = [
@@ -38,50 +24,51 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
       {"img": "images/19.png", "isvideo": false},
     ];
     List<Map<String, dynamic>> rev_images = images.reversed.toList();
-    return Scaffold(
-      endDrawer: Drawer(
-        child: Padding(
-          padding: EdgeInsets.only(top: 80, left: 15, right: 20, bottom: 20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        endDrawer: Drawer(
+          child: Padding(
+            padding: EdgeInsets.only(top: 80, left: 15, right: 20, bottom: 20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("s.khasanov_", style: TextStyle(fontSize: 20)),
+                SizedBox(height: 10),
+                drawerIcon("images/Icon1.png", "Archive"),
+                SizedBox(height: 10),
+                drawerIcon("images/Icon2.png", "Your Activity"),
+                SizedBox(height: 10),
+                drawerIcon("images/Icon3.png", "Nametag"),
+                SizedBox(height: 10),
+                drawerIcon("images/Icon4.png", "Saved"),
+                SizedBox(height: 10),
+                drawerIcon("images/Icon5.png", "Close Friends"),
+                SizedBox(height: 10),
+                drawerIcon("images/add.png", "Discover People"),
+                SizedBox(height: 10),
+                drawerIcon("images/Icon6.png", "Open Facebook"),
+                Spacer(),
+                drawerIcon("images/Vector.png", "Log out"),
+              ],
+            ),
+          ),
+        ),
+        appBar: AppBar(
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("s.khasanov_", style: TextStyle(fontSize: 20)),
-              SizedBox(height: 10),
-              drawerIcon("images/Icon1.png", "Archive"),
-              SizedBox(height: 10),
-              drawerIcon("images/Icon2.png", "Your Activity"),
-              SizedBox(height: 10),
-              drawerIcon("images/Icon3.png", "Nametag"),
-              SizedBox(height: 10),
-              drawerIcon("images/Icon4.png", "Saved"),
-              SizedBox(height: 10),
-              drawerIcon("images/Icon5.png", "Close Friends"),
-              SizedBox(height: 10),
-              drawerIcon("images/add.png", "Discover People"),
-              SizedBox(height: 10),
-              drawerIcon("images/Icon6.png", "Open Facebook"),
-              Spacer(),
-              drawerIcon("images/Vector.png", "Log out"),
+              Icon(Icons.lock_sharp, size: 20),
+              Text(" jacob_w ", style: TextStyle(fontSize: 20)),
+              Icon(Icons.arrow_drop_down_rounded, size: 25),
             ],
           ),
         ),
-      ),
-      appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.lock_sharp, size: 20),
-            Text(" jacob_w ", style: TextStyle(fontSize: 20)),
-            Icon(Icons.arrow_drop_down_rounded, size: 25),
-          ],
-        ),
-      ),
-      body: NestedScrollView(
-        headerSliverBuilder: (context, innerBoxIsScrolled) {
-          return [
-            SliverToBoxAdapter(
-              child: Padding(
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -228,91 +215,61 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                   ],
                 ),
               ),
-            ),
-            // Pinned TabBar
-            SliverPersistentHeader(
-              pinned: true,
-              delegate: _TabBarDelegate(
-                TabBar(
-                  controller: _tabController,
-                  tabs: [
-                    Tab(icon: Icon(Icons.grid_on, size: 30)),
-                    Tab(icon: Icon(Icons.person_pin_outlined, size: 30)),
+
+              TabBar(
+                tabs: [
+                  Tab(icon: Icon(Icons.grid_on, size: 30)),
+                  Tab(icon: Icon(Icons.person_pin_outlined, size: 30)),
+                ],
+                indicatorColor: Color(0xff262626),
+                dividerColor: Colors.grey,
+                labelColor: Colors.grey,
+                unselectedLabelColor: Colors.grey,
+              ),
+
+              SizedBox(
+                height: 600,
+                width: double.infinity,
+                child: TabBarView(
+                  children: [
+                    // First Tab - Grid View
+                    GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        crossAxisSpacing: 1,
+                        mainAxisSpacing: 1,
+                      ),
+                      itemCount: images.length, // Add item count
+                      itemBuilder: (context, index) {
+                        return Container(
+                          color: Colors.grey[300],
+                          child: videoIconOrPic(images[index]),
+                        );
+                      },
+                    ),
+                    // Second Tab - Grid View
+                    GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        crossAxisSpacing: 1,
+                        mainAxisSpacing: 1,
+                      ),
+                      itemCount: images.length, // Add item count
+                      itemBuilder: (context, index) {
+                        return Container(
+                          color: Colors.grey[400],
+                          child: videoIconOrPic(rev_images[index]),
+                        );
+                      },
+                    ),
                   ],
-                  indicatorColor: Color(0xff262626),
-                  dividerColor: Colors.grey,
-                  labelColor: Colors.grey,
-                  unselectedLabelColor: Colors.grey,
                 ),
               ),
-            ),
-          ];
-        },
-
-        body: TabBarView(
-          controller: _tabController,
-          children: [
-            // First Tab - Grid View
-            GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                crossAxisSpacing: 1,
-                mainAxisSpacing: 1,
-              ),
-              itemCount: images.length, // Add item count
-              itemBuilder: (context, index) {
-                return Container(
-                  color: Colors.grey[300],
-                  child: videoIconOrPic(images[index]),
-                );
-              },
-            ),
-            // Second Tab - Grid View
-            GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                crossAxisSpacing: 1,
-                mainAxisSpacing: 1,
-              ),
-              itemCount: images.length, // Add item count
-              itemBuilder: (context, index) {
-                return Container(
-                  color: Colors.grey[400],
-                  child: videoIconOrPic(rev_images[index]),
-                );
-              },
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
-  }
-}
-
-// Custom SliverPersistentHeaderDelegate for TabBar
-class _TabBarDelegate extends SliverPersistentHeaderDelegate {
-  final TabBar tabBar;
-
-  _TabBarDelegate(this.tabBar);
-
-  @override
-  Widget build(
-    BuildContext context,
-    double shrinkOffset,
-    bool overlapsContent,
-  ) {
-    return Container(color: Colors.white, child: tabBar);
-  }
-
-  @override
-  double get maxExtent => tabBar.preferredSize.height;
-
-  @override
-  double get minExtent => tabBar.preferredSize.height;
-
-  @override
-  bool shouldRebuild(_TabBarDelegate oldDelegate) {
-    return false;
   }
 }
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:etrain/loginPage.dart'; // تأكد من اسم الملف
+import 'package:etrain/pages/loginPage.dart'; // تأكد من اسم الملف
 
 void main() {
   runApp(const MyApp());

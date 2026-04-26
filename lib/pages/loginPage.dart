@@ -1,6 +1,6 @@
 // ignore_for_file: deprecated_member_use
 //simple calculator
-import 'package:etrain/homepage.dart';
+import 'package:etrain/pages/homepage.dart';
 import 'package:flutter/material.dart';
 
 class Loginpage extends StatefulWidget {

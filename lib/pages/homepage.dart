@@ -1,9 +1,9 @@
 // ignore_for_file: unused_import, prefer_final_fields, unused_field
 
-import 'package:etrain/activePage.dart';
-import 'package:etrain/addPage.dart';
-import 'package:etrain/profile.dart';
-import 'package:etrain/serach.dart';
+import 'package:etrain/pages/activePage.dart';
+import 'package:etrain/pages/addPage.dart';
+import 'package:etrain/pages/profile.dart';
+import 'package:etrain/pages/serach.dart';
 import 'package:flutter/material.dart';
 
 class Homepage extends StatefulWidget {
