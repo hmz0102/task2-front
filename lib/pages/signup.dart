@@ -1,35 +1,35 @@
-// ignore_for_file: deprecated_member_use, unused_local_variable, use_build_context_synchronously, prefer_interpolation_to_compose_strings
+// ignore_for_file: deprecated_member_use, unused_import, unused_local_variable, use_build_context_synchronously, prefer_interpolation_to_compose_strings
 //simple calculator
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:etrain/pages/homepage.dart';
-import 'package:etrain/pages/signup.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class Loginpage extends StatefulWidget {
-  const Loginpage({super.key});
+class Signupage extends StatefulWidget {
+  const Signupage({super.key});
 
   @override
-  State<Loginpage> createState() => _LoginpageState();
+  State<Signupage> createState() => _SignupageState();
 }
 
-class _LoginpageState extends State<Loginpage> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+class _SignupageState extends State<Signupage> {
+  final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
       child: Scaffold(
+        appBar: AppBar(),
         body: Center(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 140, left: 5),
+                  padding: const EdgeInsets.only(top: 80, left: 5),
                   child: Image.asset(
                     "assets/Instagram Logo.png",
                     width: 182,
@@ -63,6 +63,33 @@ class _LoginpageState extends State<Loginpage> {
                 ),
                 SizedBox(height: 40),
                 TextFormField(
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your password';
+                    }
+
+                    List<String> missingRequirements = [];
+
+                    if (!value.contains(RegExp(r'[A-Z]'))) {
+                      missingRequirements.add('one uppercase letter');
+                    }
+
+                    if (!value.contains(RegExp(r'[a-z]'))) {
+                      missingRequirements.add('one lowercase letter');
+                    }
+
+                    if (!value.contains(RegExp(r'[!@#$&\-_+*]'))) {
+                      missingRequirements.add('one special character');
+                    }
+
+                    if (missingRequirements.isNotEmpty) {
+                      return 'Must include: ' + missingRequirements.join(', ');
+                    }
+                    if (value.length < 8) {
+                      return 'Password must be at least 8 characters long';
+                    }
+                    return null;
+                  },
                   obscureText: true,
                   controller: _passwordController,
                   decoration: InputDecoration(
@@ -78,23 +105,13 @@ class _LoginpageState extends State<Loginpage> {
                   ),
                 ),
                 SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.only(left: 250),
-                  child: TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      textAlign: TextAlign.right,
-                      'Forgot password?',
-                      style: TextStyle(color: Colors.blue),
-                    ),
-                  ),
-                ),
+
                 ElevatedButton(
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       try {
                         final credential = await FirebaseAuth.instance
-                            .signInWithEmailAndPassword(
+                            .createUserWithEmailAndPassword(
                               email: _emailController.text,
                               password: _passwordController.text,
                             );
@@ -104,21 +121,38 @@ class _LoginpageState extends State<Loginpage> {
                           ),
                         );
                       } on FirebaseAuthException catch (e) {
-                        print(e.code);
-                        if (e.code == 'user-not-found' ||
-                            e.code == 'invalid-credential' ||
-                            e.code == 'wrong-password') {
-                          //print('No user found for that email.');
+                        if (e.code == 'weak-password') {
+                          // print('The password provided is too weak.');
                           AwesomeDialog(
                             context: context,
                             dialogType: DialogType.error,
                             animType: AnimType.rightSlide,
                             title: 'Error',
-                            desc:
-                                'No user found for that email or password is inccorect',
+                            desc: 'The password provided is too weak.',
+                            btnOkOnPress: () {},
+                          ).show();
+                        } else if (e.code == 'email-already-in-use') {
+                          //print('The account already exists for that email.');
+                          AwesomeDialog(
+                            context: context,
+                            dialogType: DialogType.error,
+                            animType: AnimType.rightSlide,
+                            title: 'Error',
+                            desc: 'The account already exists for that email.',
                             btnOkOnPress: () {},
                           ).show();
                         }
+                      } catch (e) {
+                        // print(e);
+                        AwesomeDialog(
+                          context: context,
+                          dialogType: DialogType.error,
+                          animType: AnimType.rightSlide,
+                          title: 'Error',
+                          desc: e.toString(),
+                          btnCancelOnPress: () {},
+                          btnOkOnPress: () {},
+                        ).show();
                       }
                     } else {
                       print("Form is not valid");
@@ -132,79 +166,17 @@ class _LoginpageState extends State<Loginpage> {
                     minimumSize: Size(400, 50),
                   ),
                   child: Text(
-                    'Log in',
+                    'Sign up',
                     style: TextStyle(color: Colors.white, fontSize: 18),
                   ),
                 ),
-                SizedBox(height: 40),
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset("assets/Icon.png", width: 20, height: 20),
-                    InkWell(
-                      onTap: () {},
-                      child: Text(
-                        "  Log in with Facebook",
-                        style: TextStyle(color: Colors.blue, fontSize: 18),
-                      ),
-                    ),
-                  ],
-                ),
-
-                SizedBox(height: 40),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: Divider(
-                        thickness: 1,
-                        color: Colors.grey,
-                        indent: 20,
-                        endIndent: 20,
-                      ),
-                    ),
-                    Text("OR"),
-                    Expanded(
-                      child: Divider(
-                        thickness: 1,
-                        color: Colors.grey,
-                        indent: 20,
-                        endIndent: 20,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 40),
-
-                Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Don’t have an account? ",
-                        style: TextStyle(color: Colors.grey, fontSize: 16),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                              builder: (context) => const Signupage(),
-                            ),
-                          );
-                        },
-                        child: Text(
-                          "Sign up.",
-                          style: TextStyle(color: Colors.blue, fontSize: 16),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 100),
+                Spacer(),
                 Divider(thickness: 1, color: Colors.grey),
                 SizedBox(height: 20),
-                Text("Instagram от Facebook"),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: Text("Instagram от Facebook"),
+                ),
               ],
             ),
           ),

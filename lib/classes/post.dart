@@ -6,7 +6,7 @@ Widget post({
   required String address,
   required String postPic,
   required String postDes,
-  required bool liked,
+  bool liked = false,
 }) {
   return SizedBox(
     width: double.infinity,

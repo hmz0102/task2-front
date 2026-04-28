@@ -1,6 +1,8 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:etrain/classes/stories.dart';
+import 'package:etrain/pages/loginPage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Profile extends StatefulWidget {
@@ -51,7 +53,19 @@ class _ProfileState extends State<Profile> {
                 SizedBox(height: 10),
                 drawerIcon("images/Icon6.png", "Open Facebook"),
                 Spacer(),
-                drawerIcon("images/Vector.png", "Log out"),
+                //drawerIcon("images/Vector.png", "Log out"),
+                ListTile(
+                  leading: Icon(Icons.logout, color: Colors.grey),
+                  title: Text("Log out", style: TextStyle(color: Colors.grey)),
+                  onTap: () async {
+                    await FirebaseAuth.instance.signOut();
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const Loginpage(),
+                      ),
+                    );
+                  },
+                ),
               ],
             ),
           ),

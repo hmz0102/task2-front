@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "754385778960",
+    "project_id": "etrain-16b7a",
+    "storage_bucket": "etrain-16b7a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:754385778960:android:ad698a5125287b28108d95",
+        "android_client_info": {
+          "package_name": "com.example.etrain"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVHYxgxaXUi95GYPnjCUflPyuksrWse-M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
