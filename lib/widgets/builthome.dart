@@ -1,4 +1,4 @@
-import 'package:etrain/classes/post.dart';
+import 'package:etrain/widgets/post.dart';
 import 'package:flutter/material.dart';
 
 Widget builthome() {
@@ -140,32 +140,29 @@ Widget builthome() {
             height: 0,
           ),
           const SizedBox(height: 10),
-          post(
+          PostWidget(
             picName: "assets/joshua_l.png",
             name: "joshua_l",
             address: "Tokyo, Japan",
             postPic: "assets/post.png",
             postDes:
                 " The game in Japan was amazing and I want to share some photos",
-            liked: false,
           ),
           SizedBox(height: 20),
-          post(
+          PostWidget(
             picName: "assets/joshua_l.png",
             name: "joshua_l",
             address: "Tokyo, Japan",
             postPic: "images/7.png",
             postDes: " I'm so excited to share my new photos with you all",
-            liked: true,
           ),
           SizedBox(height: 20),
-          post(
+          PostWidget(
             picName: "assets/karennne.png",
             name: "karennne",
             address: "zackjohn",
             postPic: "assets/post.png",
             postDes: " I'm so excited to share my new photos with you all",
-            liked: false,
           ),
         ],
       ),

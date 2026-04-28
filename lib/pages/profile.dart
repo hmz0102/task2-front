@@ -1,6 +1,6 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'package:etrain/classes/stories.dart';
+import 'package:etrain/widgets/stories.dart';
 import 'package:etrain/pages/loginPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +26,6 @@ class _ProfileState extends State<Profile> {
       {"img": "images/18.png", "isvideo": true},
       {"img": "images/19.png", "isvideo": false},
     ];
-    List<Map<String, dynamic>> rev_images = images.reversed.toList();
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -243,7 +242,7 @@ class _ProfileState extends State<Profile> {
               ),
 
               SizedBox(
-                height: 600,
+                height: MediaQuery.of(context).size.height / 2,
                 width: double.infinity,
                 child: TabBarView(
                   children: [
@@ -263,20 +262,7 @@ class _ProfileState extends State<Profile> {
                       },
                     ),
                     // Second Tab - Grid View
-                    GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        crossAxisSpacing: 1,
-                        mainAxisSpacing: 1,
-                      ),
-                      itemCount: images.length, // Add item count
-                      itemBuilder: (context, index) {
-                        return Container(
-                          color: Colors.grey[400],
-                          child: videoIconOrPic(rev_images[index]),
-                        );
-                      },
-                    ),
+                    Center(child: Text("No Posts Yet")),
                   ],
                 ),
               ),

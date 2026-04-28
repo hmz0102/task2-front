@@ -23,64 +23,66 @@ class _LoginpageState extends State<Loginpage> {
     return Form(
       key: _formKey,
       child: Scaffold(
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 140, left: 5),
-                  child: Image.asset(
-                    "assets/Instagram Logo.png",
-                    width: 182,
-                    height: 49,
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 18),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 140, left: 5),
+                child: Image.asset(
+                  "assets/Instagram Logo.png",
+                  width: 182,
+                  height: 49,
+                ),
+              ),
+              SizedBox(height: 40),
+              TextFormField(
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your email';
+                  } else if (!RegExp(
+                    r"^[^\s@]+@[^\s@]+\.[^\s@]+$",
+                  ).hasMatch(value)) {
+                    return 'Please enter a valid email';
+                  }
+                  return null;
+                },
+                controller: _emailController,
+                decoration: InputDecoration(
+                  labelText: 'Username',
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.blue, width: 2.0),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                SizedBox(height: 40),
-                TextFormField(
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your email';
-                    } else if (!RegExp(
-                      r"^[^\s@]+@[^\s@]+\.[^\s@]+$",
-                    ).hasMatch(value)) {
-                      return 'Please enter a valid email';
-                    }
-                    return null;
-                  },
-                  controller: _emailController,
-                  decoration: InputDecoration(
-                    labelText: 'Username',
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.blue, width: 2.0),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
+              ),
+              SizedBox(height: 40),
+              TextFormField(
+                obscureText: true,
+                controller: _passwordController,
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.blue, width: 2.0),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                SizedBox(height: 40),
-                TextFormField(
-                  obscureText: true,
-                  controller: _passwordController,
-                  decoration: InputDecoration(
-                    labelText: 'Password',
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.blue, width: 2.0),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.only(left: 250),
-                  child: TextButton(
+              ),
+              SizedBox(height: 20),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
                     onPressed: () {},
                     child: Text(
                       textAlign: TextAlign.right,
@@ -88,125 +90,132 @@ class _LoginpageState extends State<Loginpage> {
                       style: TextStyle(color: Colors.blue),
                     ),
                   ),
+                ],
+              ),
+
+              ElevatedButton(
+                onPressed: () async {
+                  if (_formKey.currentState!.validate()) {
+                    try {
+                      final credential = await FirebaseAuth.instance
+                          .signInWithEmailAndPassword(
+                            email: _emailController.text,
+                            password: _passwordController.text,
+                          );
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const Homepage(),
+                        ),
+                      );
+                    } on FirebaseAuthException catch (e) {
+                      print(e.code);
+                      if (e.code == 'user-not-found' ||
+                          e.code == 'invalid-credential' ||
+                          e.code == 'wrong-password') {
+                        //print('No user found for that email.');
+                        AwesomeDialog(
+                          context: context,
+                          dialogType: DialogType.error,
+                          animType: AnimType.rightSlide,
+                          title: 'Error',
+                          desc:
+                              'No user found for that email or password is inccorect',
+                          btnOkOnPress: () {},
+                        ).show();
+                      }
+                    }
+                  } else {
+                    print("Form is not valid");
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  minimumSize: Size(400, 50),
                 ),
-                ElevatedButton(
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
-                      try {
-                        final credential = await FirebaseAuth.instance
-                            .signInWithEmailAndPassword(
-                              email: _emailController.text,
-                              password: _passwordController.text,
-                            );
-                        Navigator.of(context).push(
+                child: Text(
+                  'Log in',
+                  style: TextStyle(color: Colors.white, fontSize: 18),
+                ),
+              ),
+              SizedBox(height: 40),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset("assets/Icon.png", width: 20, height: 20),
+                  InkWell(
+                    onTap: () {},
+                    child: Text(
+                      "  Log in with Facebook",
+                      style: TextStyle(color: Colors.blue, fontSize: 18),
+                    ),
+                  ),
+                ],
+              ),
+
+              SizedBox(height: 40),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Divider(
+                      thickness: 1,
+                      color: Colors.grey,
+                      indent: 20,
+                      endIndent: 20,
+                    ),
+                  ),
+                  Text("OR"),
+                  Expanded(
+                    child: Divider(
+                      thickness: 1,
+                      color: Colors.grey,
+                      indent: 20,
+                      endIndent: 20,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 40),
+
+              Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Don’t have an account? ",
+                      style: TextStyle(color: Colors.grey, fontSize: 16),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.of(context).pushReplacement(
                           MaterialPageRoute(
-                            builder: (context) => const Homepage(),
+                            builder: (context) => const Signupage(),
                           ),
                         );
-                      } on FirebaseAuthException catch (e) {
-                        print(e.code);
-                        if (e.code == 'user-not-found' ||
-                            e.code == 'invalid-credential' ||
-                            e.code == 'wrong-password') {
-                          //print('No user found for that email.');
-                          AwesomeDialog(
-                            context: context,
-                            dialogType: DialogType.error,
-                            animType: AnimType.rightSlide,
-                            title: 'Error',
-                            desc:
-                                'No user found for that email or password is inccorect',
-                            btnOkOnPress: () {},
-                          ).show();
-                        }
-                      }
-                    } else {
-                      print("Form is not valid");
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    minimumSize: Size(400, 50),
-                  ),
-                  child: Text(
-                    'Log in',
-                    style: TextStyle(color: Colors.white, fontSize: 18),
-                  ),
-                ),
-                SizedBox(height: 40),
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset("assets/Icon.png", width: 20, height: 20),
-                    InkWell(
-                      onTap: () {},
+                      },
                       child: Text(
-                        "  Log in with Facebook",
-                        style: TextStyle(color: Colors.blue, fontSize: 18),
+                        "Sign up.",
+                        style: TextStyle(color: Colors.blue, fontSize: 16),
                       ),
                     ),
                   ],
                 ),
+              ),
+              Spacer(),
 
-                SizedBox(height: 40),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: Divider(
-                        thickness: 1,
-                        color: Colors.grey,
-                        indent: 20,
-                        endIndent: 20,
-                      ),
-                    ),
-                    Text("OR"),
-                    Expanded(
-                      child: Divider(
-                        thickness: 1,
-                        color: Colors.grey,
-                        indent: 20,
-                        endIndent: 20,
-                      ),
-                    ),
-                  ],
+              Divider(thickness: 1, color: Colors.grey),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  child: Text("Instagram от Facebook"),
                 ),
-                SizedBox(height: 40),
-
-                Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Don’t have an account? ",
-                        style: TextStyle(color: Colors.grey, fontSize: 16),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                              builder: (context) => const Signupage(),
-                            ),
-                          );
-                        },
-                        child: Text(
-                          "Sign up.",
-                          style: TextStyle(color: Colors.blue, fontSize: 16),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 100),
-                Divider(thickness: 1, color: Colors.grey),
-                SizedBox(height: 20),
-                Text("Instagram от Facebook"),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

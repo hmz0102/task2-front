@@ -1,7 +1,7 @@
 // ignore_for_file: unused_import, prefer_final_fields, unused_field
 
-import 'package:etrain/classes/builthome.dart';
-import 'package:etrain/classes/post.dart';
+import 'package:etrain/widgets/builthome.dart';
+import 'package:etrain/widgets/post.dart';
 import 'package:etrain/pages/activePage.dart';
 import 'package:etrain/pages/addPage.dart';
 import 'package:etrain/pages/profile.dart';

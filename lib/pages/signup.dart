@@ -38,6 +38,7 @@ class _SignupageState extends State<Signupage> {
                 ),
                 SizedBox(height: 40),
                 TextFormField(
+                  keyboardType: TextInputType.emailAddress,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter your email';
